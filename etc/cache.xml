@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
+    <type name="cms_data_cache" translate="label,description" instance="DMTQ\PerfectCache\Model\Cache\CmsData">
+        <label>CMS Data Cache</label>
+        <description>CMS page frontend builder block cache</description>
+    </type>
+    <type name="product_data_cache" translate="label,description" instance="DMTQ\PerfectCache\Model\Cache\ProductData">
+        <label>Product Data Cache</label>
+        <description>Product Detail Page Cache: Link Product </description>
+    </type>
+</config>
