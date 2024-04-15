@@ -1,6 +1,6 @@
 {
     "name": "dmtq/module-perfect-cache",
-    "description": "Core",
+    "description": "Magento2 cms and product data cache. Used to improve the access speed of CMS pages and product detail pages.",
     "type": "magento2-module",
     "license": "GPL-3.0",
     "minimum-stability": "dev",
