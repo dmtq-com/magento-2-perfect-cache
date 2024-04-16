@@ -19,6 +19,10 @@ class ProductData extends TagScope
      */
     const CACHE_TAG = 'PRODUCT_DATA_CACHE';
 
+    const KEY_PREFIX = 'pro_';
+
+    const TAG_PREFIX = 'pro_';
+
     /**
      * @param FrontendPool $cacheFrontendPool
      */

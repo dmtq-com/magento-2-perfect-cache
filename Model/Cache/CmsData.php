@@ -19,6 +19,10 @@ class CmsData extends TagScope
      */
     const CACHE_TAG = 'CMS_DATA_CACHE';
 
+    const KEY_PREFIX = 'cms_';
+
+    const TAG_PREFIX = 'cms_';
+
     /**
      * @param FrontendPool $cacheFrontendPool
      */

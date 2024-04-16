@@ -14,6 +14,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\View\Layout;
 use Magento\Store\Model\ScopeInterface;
@@ -57,10 +58,10 @@ class CacheProcessLayoutRenderElement implements ObserverInterface
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        RequestInterface $request,
-        ScopeConfigInterface $scopeConfig,
-        CacheInterface $cache,
-        StateInterface $cacheState,
+        RequestInterface      $request,
+        ScopeConfigInterface  $scopeConfig,
+        CacheInterface        $cache,
+        StateInterface        $cacheState,
         StoreManagerInterface $storeManager,
     )
     {
@@ -82,11 +83,9 @@ class CacheProcessLayoutRenderElement implements ObserverInterface
     }
 
     /**
-     * Add comment cache containers to private blocks
-     * Blocks are wrapped only if page is cacheable
-     *
      * @param Observer $observer
      * @return void
+     * @throws NoSuchEntityException
      */
     public function execute(Observer $observer): void
     {
@@ -104,19 +103,18 @@ class CacheProcessLayoutRenderElement implements ObserverInterface
                     $pageId = $this->scopeConfig->getValue(Page::XML_PATH_HOME_PAGE, ScopeInterface::SCOPE_STORE);
                 }
                 if ($pageId && $this->_request->getControllerName() !== 'noroute') {
-                    $cacheKey = $this->_request->getModuleName()
-                        . '_' . $pageId
+                    $cacheKey = CmsData::KEY_PREFIX . $pageId
                         . '_' . $this->storeManager->getStore()->getCurrentCurrencyCode()
                         . '_' . $this->storeManager->getStore()->getId();
                     $cacheTag = CmsData::CACHE_TAG;
+                    $cacheTagId = CmsData::TAG_PREFIX . $pageId;
                     $cacheData = $this->cache->load($cacheKey);
                     if (!$cacheData) {
                         $this->cache->save(
                             $output,
                             $cacheKey,
-                            [$cacheTag],
+                            [$cacheTag, $cacheTagId],
                             86400
-
                         );
                     }
                 }

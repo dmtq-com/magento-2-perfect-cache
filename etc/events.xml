@@ -12,4 +12,10 @@
     <event name="cms_page_render">
         <observer name="dmtq_cms_page_render" instance="DMTQ\PerfectCache\Observer\CacheCmsRender" />
     </event>
+    <event name="cms_page_save_after">
+        <observer name="dmtq_purge_cms_cache" instance="DMTQ\PerfectCache\Observer\PurgeCmsCache" />
+    </event>
+    <event name="catalog_product_save_after">
+        <observer name="dmtq_purge_product_cache" instance="DMTQ\PerfectCache\Observer\PurgeProductCache" />
+    </event>
 </config>

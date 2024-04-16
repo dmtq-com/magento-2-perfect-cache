@@ -12,8 +12,10 @@ use Magento\Framework\App\CacheInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\View\Layout;
+use DMTQ\PerfectCache\Model\Cache\CmsData;
 
 class CacheCmsRender implements ObserverInterface
 {
@@ -66,15 +68,13 @@ class CacheCmsRender implements ObserverInterface
      */
     public function isCmsDataCacheEnabled(): bool
     {
-        return $this->cacheState->isEnabled(\DMTQ\PerfectCache\Model\Cache\CmsData::TYPE_IDENTIFIER);
+        return $this->cacheState->isEnabled(CmsData::TYPE_IDENTIFIER);
     }
 
     /**
-     * Add comment cache containers to private blocks
-     * Blocks are wrapped only if page is cacheable
-     *
      * @param Observer $observer
      * @return void
+     * @throws NoSuchEntityException
      */
     public function execute(Observer $observer)
     {
@@ -83,15 +83,13 @@ class CacheCmsRender implements ObserverInterface
         if ($this->isCmsDataCacheEnabled()) {
             $page = $event->getPage();
             if ($page->getIdentifier() && ($page->getIdentifier() !== 'no-route')) {
-                $cacheKey = $this->_request->getModuleName()
-                    . '_' . $page->getIdentifier()
+                $cacheKey = CmsData::KEY_PREFIX . $page->getIdentifier()
                     . '_' . $this->storeManager->getStore()->getCurrentCurrencyCode()
                     . '_' . $this->storeManager->getStore()->getId();
                 $data = $this->cache->load($cacheKey);
                 if ($data) {
                     $page->setContent($data);
                 }
-
             }
         }
     }
