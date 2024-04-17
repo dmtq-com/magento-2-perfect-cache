@@ -66,7 +66,7 @@ class CacheCmsRender implements ObserverInterface
      *
      * @return bool
      */
-    public function isCmsDataCacheEnabled(): bool
+    public function isCacheEnabled(): bool
     {
         return $this->cacheState->isEnabled(CmsData::TYPE_IDENTIFIER);
     }
@@ -80,7 +80,7 @@ class CacheCmsRender implements ObserverInterface
     {
         $event = $observer->getEvent();
         /** @var Layout $layout */
-        if ($this->isCmsDataCacheEnabled()) {
+        if ($this->isCacheEnabled()) {
             $page = $event->getPage();
             if ($page->getIdentifier() && ($page->getIdentifier() !== 'no-route')) {
                 $cacheKey = CmsData::KEY_PREFIX . $page->getIdentifier()

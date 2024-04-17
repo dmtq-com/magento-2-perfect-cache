@@ -77,7 +77,7 @@ class CacheProcessLayoutRenderElement implements ObserverInterface
      *
      * @return bool
      */
-    public function isCmsDataCacheEnabled(): bool
+    public function isCacheEnabled(): bool
     {
         return $this->cacheState->isEnabled(CmsData::TYPE_IDENTIFIER);
     }
@@ -92,7 +92,7 @@ class CacheProcessLayoutRenderElement implements ObserverInterface
         $event = $observer->getEvent();
         /** @var Layout $layout */
         $layout = $event->getLayout();
-        if ($this->isCmsDataCacheEnabled() && $layout->isCacheable()) {
+        if ($this->isCacheEnabled() && $layout->isCacheable()) {
             $name = $event->getElementName();
             $transport = $event->getTransport();
             $output = $transport->getData('output');

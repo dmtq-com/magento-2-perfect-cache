@@ -47,9 +47,9 @@ class PurgeProductCache implements ObserverInterface
      *
      * @return bool
      */
-    public function isCmsDataCacheEnabled(): bool
+    public function isCacheEnabled(): bool
     {
-        return $this->cacheState->isEnabled(CmsData::TYPE_IDENTIFIER);
+        return $this->cacheState->isEnabled(ProductData::TYPE_IDENTIFIER);
     }
 
     /**
@@ -58,7 +58,7 @@ class PurgeProductCache implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if ($this->isCmsDataCacheEnabled()) {
+        if ($this->isCacheEnabled()) {
             $product = $observer->getEvent()->getProduct();
             if ($product && $product->getId()) {
                 $cacheTagId = ProductData::TAG_PREFIX . $product->getId();
